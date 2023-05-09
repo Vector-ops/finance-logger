@@ -28,6 +28,10 @@
         </select>
       </div>
       <div class="field">
+        <label>Invoice No.:</label>
+        <input type="number" id="invid">
+      </div> 
+      <div class="field">
         <label>To / From:</label>
         <input type="text" id="tofrom">
       </div>   
@@ -39,8 +43,12 @@
         <label>Amount ($):</label>
         <input type="number" id="amount">
       </div>
-      <button>Add</button>
+      <button type="submit">Add</button>
     </form>
+    <div class="fetch">
+      <button class="inv">Invoices</button>
+      <button class="pmt">Payments</button>
+    </div>
   </footer>
 
   <script type="module" src="app.js"></script>

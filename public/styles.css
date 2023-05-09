@@ -63,6 +63,7 @@ button {
   padding: 6px;
   min-width: 80px;
   border-radius: 4px;
+  margin-top: 20px;
 }
 /* footer a {
   text-align: center;
@@ -71,3 +72,12 @@ button {
   margin-top: 40px;
   font-size: 0.7em;
 } */
+
+.fetch {
+  text-align: center;
+}
+
+.fetch button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
