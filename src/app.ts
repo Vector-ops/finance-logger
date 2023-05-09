@@ -1,11 +1,13 @@
 import { Invoice } from './classes/invoice.js';
 import { ListTemplate } from './classes/listtemplate.js';
 import { Payments } from './classes/payments.js';
+import { invoices, payments } from './data/data.js';
 import { hasFormatter } from './interfaces/hasFormatter.js';
+import { validateInv, validatePay } from './validators/inputValidator.js';
 
-let pid: number = 0;
-let invoices: hasFormatter[] = [];
-let payments: hasFormatter[] = [];
+let pid: number;
+// let invoices: hasFormatter[] = [];
+// let payments: hasFormatter[] = [];
 
 const form = document.querySelector('.new-item-form') as HTMLFormElement;
 const ul = document.querySelector('ul') as HTMLUListElement;
@@ -13,6 +15,7 @@ const list = new ListTemplate(ul)!;
 
 const inv = document.querySelector('.inv') as HTMLButtonElement;
 const pmt = document.querySelector('.pmt') as HTMLButtonElement;
+const error = document.querySelector('#error') as HTMLParagraphElement;
 
 
 const type = document.querySelector('#type') as HTMLSelectElement;
@@ -23,20 +26,24 @@ const amount = document.querySelector('#amount') as HTMLInputElement;
 
 form.addEventListener('submit', (e: Event)=>{
     e.preventDefault();
-    console.log(type.value);
     
     if(type.value === 'payment') {
-        if(invid) {
+        if(validatePay(toFrom.value, details.value, amount.valueAsNumber)) {
+            error.innerText = '';
+        if(invid.valueAsNumber) {
             pid = invid.valueAsNumber;
         } else {
-            pid++;
+            pid = Math.floor(Math.random() * 100);           
         }
         const doc = new Payments(pid, toFrom.value, details.value, amount.valueAsNumber);
         payments.push(doc);
-        //list.render(doc, type.value, 'end');
+        }
     } else {
-        const doc = new Invoice(invid.valueAsNumber, toFrom.value, details.value, amount.valueAsNumber);
-        invoices.push(doc);
+        if(validateInv(invid.valueAsNumber, toFrom.value, details.value, amount.valueAsNumber)) {
+            error.innerText = '';
+            const doc = new Invoice(invid.valueAsNumber, toFrom.value, details.value, amount.valueAsNumber);
+            invoices.push(doc);
+        }
     }
 });
 
@@ -56,7 +63,3 @@ pmt.addEventListener('click', (e: Event)=>{
     });
 });
 
-document.addEventListener('click', (e: Event) => {
-    console.log(e.srcElement);
-    
-})
